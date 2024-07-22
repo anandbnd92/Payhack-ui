@@ -1,0 +1,13 @@
+.content-container{
+  margin-left: 180px;
+}
+.header {
+  display: flex;
+  background-color: #4a0b5f;
+  color: white;
+}
+.header img {
+  height: 100px;
+  margin-right: 10px;
+  
+}

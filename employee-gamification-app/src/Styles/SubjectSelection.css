@@ -1,0 +1,73 @@
+@keyframes blink {
+    0%, 100% {
+      opacity: 1;
+      color: red;
+    }
+    50% {
+      opacity: 0;
+      color: green;
+    }
+  }
+  
+  @keyframes move {
+    0%, 100% {
+      transform: translateX(0);
+      color: red;
+    }
+    50% {
+      transform: translateX(5px);
+      color: green;
+    }
+  }
+  
+  .blink-move {
+    animation: blink 1.5s infinite;
+    text-align: center;
+    color: blue;
+  }
+  
+  .subject-cards {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  
+  .subject-card {
+    width: 200px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+    margin: 10px;
+    transition: transform 0.3s ease-in-out;
+    
+  }
+  
+  .subject-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.5rem; 
+    margin-bottom: 10px;
+  }
+  
+  .icon-container svg {
+    width: 100%;
+    height: auto;
+  }
+  
+  .subject-card h2 {
+    margin-bottom: 10px;
+  }
+  
+  .subject-card p {
+    color: #666;
+    font-size: 14px;
+  }
