@@ -1,31 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nodejs-app
+  name: payhack-ui
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: nodejs-app
+      app: payhack-ui
   template:
     metadata:
       labels:
-        app: nodejs-app
+        app: payhack-ui
     spec:
       containers:
-      - name: nodejs-app
-        image: gcr.io/lloyds-hack-grp-21/nodejs-app:latest
+      - name: payhack-ui
+        image: gcr.io/lloyds-hack-grp-21/payhack-ui:latest
         ports:
         - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: nodejs-app-service
+  name: payhack-ui-service
 spec:
   type: LoadBalancer
   selector:
-    app: nodejs-app
+    app: payhack-ui
   ports:
     - protocol: TCP
       port: 80
