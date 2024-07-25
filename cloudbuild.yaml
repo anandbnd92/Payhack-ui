@@ -14,3 +14,4 @@ steps:
       - 'CLOUDSDK_CONTAINER_CLUSTER=payhack-ui'
 images:
   - 'gcr.io/$PROJECT_ID/nodejs-app:$COMMIT_SHA'
+logsBucket: gs://lloyds-hack-grp-21.appspot.com
