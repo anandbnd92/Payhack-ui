@@ -7,7 +7,7 @@ import ScoreboardPage from "./Pages/ScoreboardPage";
 import Sidebar from "./Components/Sidebar";
 import "./App.css";
 import SpinWheel from "./Components/SpinWheel";
-import VoucherDisplay from "./Components/VoucherDisplay";
+import LoginPage from "./Components/LoginPage";
 function App() {
   return (
     <Router>
@@ -15,12 +15,12 @@ function App() {
         <Sidebar />
         <div className="content-container">
           <Routes>
+            {/* <Route path="/login" element={<LoginPage />} /> */}
             <Route path="/home" element={<Home />} />
             <Route path="/subjects" element={<SubjectSelection />} />
             <Route path="/quiz/:subject" element={<QuizPage />} />
             <Route path="/scoreboard" element={<ScoreboardPage />} />
             <Route path="/spinwheel" element={<SpinWheel />} />
-            <Route path="/voucherdisplay" element={<VoucherDisplay />} />
           </Routes>
         </div>
       </div>
