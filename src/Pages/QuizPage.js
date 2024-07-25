@@ -66,7 +66,7 @@ function QuizPage() {
       subject,
       totalQuestions: questions.length,
       correctCount,
-      submittedUser: "user123", // I took sample user here
+      submittedUser: localStorage.getItem("username"),
     };
 
     axios
@@ -104,7 +104,9 @@ function QuizPage() {
 
   return (
     <div className="quiz-page">
-      <h2>{subject} Quiz</h2>
+      <center>
+        <h2>{subject} Quiz</h2>
+      </center>
       <div className="question-container">
         <p className="question-text">{currentQuestion.questionText}</p>
         <div className="options-container">
@@ -126,7 +128,7 @@ function QuizPage() {
           ))}
         </div>
         <div className="navigation-buttons">
-          {!isLastQuestion && (
+          {/* {!isLastQuestion && (
             <button
               onClick={() => {
                 if (currentQuestionIndex < questions.length - 1) {
@@ -136,8 +138,19 @@ function QuizPage() {
             >
               Next
             </button>
+          )} */}{" "}
+          {isLastQuestion && (
+            <button
+              onClick={handleSubmit}
+              style={{
+                display: "block",
+                margin: "0 auto",
+                width: "100px", // Adjust the width as needed
+              }}
+            >
+              Submit
+            </button>
           )}
-          {isLastQuestion && <button onClick={handleSubmit}>Submit</button>}
         </div>
       </div>
     </div>

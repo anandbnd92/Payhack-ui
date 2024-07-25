@@ -11,24 +11,33 @@ function ScoreboardPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:8081/getscore")
-      .then((response) => response.json())
-      .then((data) => {
-        const fetchedScores = {};
-        let total = 0;
-
-        data.forEach((scoreEntry) => {
-          const subject = scoreEntry.subject.toLowerCase();
-          fetchedScores[subject] = scoreEntry.correctcount;
-          total += scoreEntry.correctcount;
-        });
-
-        setScores(fetchedScores);
-        setTotalScore(total);
+    const username = localStorage.getItem("username");
+    console.log("username", username);
+    if (username) {
+      fetch(`http://localhost:8081/getscore?username=${username}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
-      .catch((error) => {
-        console.error("Error fetching scores:", error);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          const fetchedScores = {};
+          let total = 0;
+
+          data.forEach((scoreEntry) => {
+            const subject = scoreEntry.subject.toLowerCase();
+            fetchedScores[subject] = scoreEntry.correctcount;
+            total += scoreEntry.correctcount;
+          });
+
+          setScores(fetchedScores);
+          setTotalScore(total);
+        })
+        .catch((error) => {
+          console.error("Error fetching scores:", error);
+        });
+    }
   }, []);
 
   const handleSpinClick = () => {
@@ -66,7 +75,16 @@ function ScoreboardPage() {
           <FaCoins className="scoreboard-icon-total" />
           <p>Total Gold Coins: {totalScore * 10}</p>
         </div>
-        <button onClick={handleSpinClick}>Go to Spin Wheel</button>
+        <button
+          onClick={handleSpinClick}
+          style={{
+            display: "block",
+            margin: "0 auto",
+            width: "150px", // Adjust the width as needed
+          }}
+        >
+          Go to Spin Wheel
+        </button>
       </div>
     </div>
   );

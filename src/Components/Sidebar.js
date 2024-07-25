@@ -4,6 +4,7 @@ import "../Styles/Sidebar.css";
 import { GiTargetPrize } from "react-icons/gi";
 import { PiSpinnerBallBold } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
+import { IoMdLogOut } from "react-icons/io";
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -21,9 +22,9 @@ const Sidebar = () => {
   const handleClicksb = () => {
     navigate("/scoreboard");
   };
-  // const handleClickspin = () => {
-  //   navigate("/spinwheel");
-  // };
+  const handleClicklogout = () => {
+    navigate("/logout");
+  };
   return (
     <div className={`sidebar ${isOpen ? "open" : ""}`}>
       <div className="toggle-btn" onClick={toggleSidebar}>
@@ -46,11 +47,11 @@ const Sidebar = () => {
 
             <span>Badges</span>
           </li>
-          {/* <li onClick={handleClickspin}>
-            <PiSpinnerBallBold />
+          <li onClick={handleClicklogout}>
+            <IoMdLogOut />
 
-            <span>Spin</span>
-          </li> */}
+            <span>Logout</span>
+          </li>
         </ul>
       </div>
     </div>

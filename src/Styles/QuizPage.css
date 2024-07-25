@@ -6,6 +6,7 @@
   
   .question-container {
     margin: 20px 0;
+    margin-left: 150px;
   }
   
   .question-text {
@@ -15,6 +16,7 @@
   
   .options-container {
     margin-bottom: 20px;
+    
   }
   
   .option-button {
@@ -23,7 +25,7 @@
     padding: 10px;
     margin: 5px 0;
     border: none;
-    background-color: #f0f0f0;
+    background-color: #76cfe5;
     cursor: pointer;
   }
   

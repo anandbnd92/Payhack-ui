@@ -5,11 +5,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const WheelContainer = styled.div`
   position: relative;
-  width: 300px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   border: 10px solid #333;
   overflow: hidden;
+  margin: 0 auto; // Center horizontally
 `;
 
 const Wheel = styled.div`
@@ -91,6 +92,14 @@ const CompletionMessage = styled.div`
   font-size: 18px;
   font-weight: bold;
   color: darkred;
+`;
+
+const SpinWheelContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; // Full viewport height
 `;
 
 const segments = [
