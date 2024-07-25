@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import "../Styles/SpinWheel.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const WheelContainer = styled.div`
   position: relative;
-  width: 300px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   border: 10px solid #333;
   overflow: hidden;
+  margin: 0 auto; // Center horizontally
 `;
 
 const Wheel = styled.div`
@@ -86,6 +87,21 @@ const SpinCountDisplay = styled.div`
   color: red;
 `;
 
+const CompletionMessage = styled.div`
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: darkred;
+`;
+
+const SpinWheelContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; // Full viewport height
+`;
+
 const segments = [
   { color: "lightcoral", label: "Delicious - free", amount: 0 },
   { color: "lightblue", label: "Skillful - free", amount: 0 },
@@ -106,34 +122,31 @@ const segments = [
 ];
 
 const SpinWheel = () => {
+  const location = useLocation();
+  const { totalScore } = location.state || {}; // Destructure totalScore
   const [rotation, setRotation] = useState(0);
   const [currentPrize, setCurrentPrize] = useState(null);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [spinCount, setSpinCount] = useState(0);
-  const [quizzesCompleted, setQuizzesCompleted] = useState(false);
+  const [spinCount, setSpinCount] = useState(
+    isNaN(Number(totalScore)) ? 0 : Number(totalScore)
+  ); // Handle NaN
 
   useEffect(() => {
-    const storedSpinCount = localStorage.getItem("spin_count");
-    const storedTotalAmount = localStorage.getItem("total_amount");
-    const allSpinsUsed = localStorage.getItem("all_spins_used");
-    const storedQuizzesCompleted = localStorage.getItem("quizzes_completed");
+    // Ensure valid number
+    setSpinCount(isNaN(Number(totalScore)) ? 0 : Number(totalScore));
 
+    // Retrieve stored total amount if available
+    const storedTotalAmount = localStorage.getItem("total_amount");
     if (storedTotalAmount) {
       setTotalAmount(Number(storedTotalAmount));
     }
 
-    if (allSpinsUsed) {
+    // Check if all spins are used
+    const allSpinsUsed = localStorage.getItem("all_spins_used");
+    if (allSpinsUsed === "true") {
       setSpinCount(0);
-    } else if (storedSpinCount) {
-      setSpinCount(Number(storedSpinCount));
-    } else {
-      setSpinCount(0); // Initial spin count if none is stored
     }
-
-    if (storedQuizzesCompleted === "true") {
-      setQuizzesCompleted(true);
-    }
-  }, []);
+  }, [totalScore]);
 
   const spin = () => {
     if (spinCount <= 0) {
@@ -151,20 +164,27 @@ const SpinWheel = () => {
     setCurrentPrize(selectedSegment.label);
     const newTotalAmount = totalAmount + selectedSegment.amount;
     setTotalAmount(newTotalAmount);
+
     localStorage.setItem("total_amount", newTotalAmount);
 
     const newSpinCount = spinCount - 1;
     setSpinCount(newSpinCount);
     localStorage.setItem("spin_count", newSpinCount);
+
     if (newSpinCount <= 0) {
       localStorage.setItem("all_spins_used", "true");
+      localStorage.setItem("final_total_amount", newTotalAmount); // Store final amount
     }
   };
+
   const navigate = useNavigate();
-  if (!quizzesCompleted) {
+  if (spinCount <= 0) {
     return (
       <div>
-        <p>Please complete all quizzes first!</p>
+        <CompletionMessage>
+          No spins remaining! Please earn more spins. Your total collected
+          amount is ${totalAmount}.
+        </CompletionMessage>
         <button onClick={() => navigate("/scoreboard")}>
           Go to Scoreboard
         </button>
