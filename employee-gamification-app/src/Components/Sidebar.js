@@ -21,9 +21,9 @@ const Sidebar = () => {
   const handleClicksb = () => {
     navigate("/scoreboard");
   };
-  const handleClickspin = () => {
-    navigate("/spinwheel");
-  };
+  // const handleClickspin = () => {
+  //   navigate("/spinwheel");
+  // };
   return (
     <div className={`sidebar ${isOpen ? "open" : ""}`}>
       <div className="toggle-btn" onClick={toggleSidebar}>
@@ -46,11 +46,11 @@ const Sidebar = () => {
 
             <span>Badges</span>
           </li>
-          <li onClick={handleClickspin}>
+          {/* <li onClick={handleClickspin}>
             <PiSpinnerBallBold />
 
             <span>Spin</span>
-          </li>
+          </li> */}
         </ul>
       </div>
     </div>

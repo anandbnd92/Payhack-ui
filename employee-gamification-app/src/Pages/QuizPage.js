@@ -1,221 +1,147 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Quiz from "../Components/Quiz";
+import axios from "axios";
+import Swal from "sweetalert2";
+import "../Styles/QuizPage.css";
 
-const questions = {
-  react: [
-    {
-      questionText: "What is JSX?",
-      answerOptions: [
-        { answerText: "A JavaScript syntax extension", isCorrect: true },
-        { answerText: "A type of CSS", isCorrect: false },
-        { answerText: "A version of HTML", isCorrect: false },
-        { answerText: "None of the above", isCorrect: false },
-      ],
-    },
-    {
-      questionText: "What is a React component?",
-      answerOptions: [
-        { answerText: "A part of a React application", isCorrect: true },
-        { answerText: "A type of variable", isCorrect: false },
-        { answerText: "A database query", isCorrect: false },
-        { answerText: "None of the above", isCorrect: false },
-      ],
-    },
-    {
-      questionText: "What is the use of useState in React?",
-      answerOptions: [
-        { answerText: "To manage component state", isCorrect: true },
-        { answerText: "To fetch data from an API", isCorrect: false },
-        { answerText: "To style components", isCorrect: false },
-        { answerText: "None of the above", isCorrect: false },
-      ],
-    },
-    {
-      questionText: "What is a React hook?",
-      answerOptions: [
-        {
-          answerText: "A special function to manage state and side effects",
-          isCorrect: true,
-        },
-        { answerText: "A type of React component", isCorrect: false },
-        { answerText: "A CSS class", isCorrect: false },
-        { answerText: "None of the above", isCorrect: false },
-      ],
-    },
-    {
-      questionText: "What is the virtual DOM?",
-      answerOptions: [
-        {
-          answerText: "A representation of the actual DOM in memory",
-          isCorrect: true,
-        },
-        { answerText: "A type of database", isCorrect: false },
-        { answerText: "A part of a React component", isCorrect: false },
-        { answerText: "None of the above", isCorrect: false },
-      ],
-    },
-  ],
-  "node.js": [
-    {
-      questionText: "What is Node.js?",
-      answerOptions: [
-        { answerText: "A JavaScript runtime", isCorrect: true },
-        { answerText: "A type of database", isCorrect: false },
-        { answerText: "A front-end framework", isCorrect: false },
-        { answerText: "None of the above", isCorrect: false },
-      ],
-    },
-    {
-      questionText: "What does npm stand for?",
-      answerOptions: [
-        { answerText: "Node Package Manager", isCorrect: true },
-        { answerText: "New Programming Method", isCorrect: false },
-        { answerText: "Network Protocol Manager", isCorrect: false },
-        { answerText: "None of the above", isCorrect: false },
-      ],
-    },
-    {
-      questionText: "What is the purpose of the package.json file?",
-      answerOptions: [
-        {
-          answerText: "To manage project dependencies and scripts",
-          isCorrect: true,
-        },
-        { answerText: "To configure a web server", isCorrect: false },
-        { answerText: "To style a web page", isCorrect: false },
-        { answerText: "None of the above", isCorrect: false },
-      ],
-    },
-    {
-      questionText: "What is Express.js?",
-      answerOptions: [
-        {
-          answerText: "A web application framework for Node.js",
-          isCorrect: true,
-        },
-        { answerText: "A type of database", isCorrect: false },
-        { answerText: "A CSS framework", isCorrect: false },
-        { answerText: "None of the above", isCorrect: false },
-      ],
-    },
-    {
-      questionText: "How do you import a module in Node.js?",
-      answerOptions: [
-        { answerText: "Using the require function", isCorrect: true },
-        { answerText: "Using the import statement", isCorrect: false },
-        { answerText: "Using the include function", isCorrect: false },
-        { answerText: "None of the above", isCorrect: false },
-      ],
-    },
-  ],
-  java: [
-    {
-      questionText: "What is Java?",
-      answerOptions: [
-        { answerText: "A programming language", isCorrect: true },
-        { answerText: "A type of coffee", isCorrect: false },
-        { answerText: "An operating system", isCorrect: false },
-        { answerText: "None of the above", isCorrect: false },
-      ],
-    },
-    {
-      questionText: "What is JVM?",
-      answerOptions: [
-        { answerText: "Java Virtual Machine", isCorrect: true },
-        { answerText: "Java Version Manager", isCorrect: false },
-        { answerText: "Java Virtual Memory", isCorrect: false },
-        { answerText: "None of the above", isCorrect: false },
-      ],
-    },
-    {
-      questionText: "What is inheritance in Java?",
-      answerOptions: [
-        {
-          answerText:
-            "A mechanism where one class acquires the properties of another",
-          isCorrect: true,
-        },
-        { answerText: "A process of overriding a method", isCorrect: false },
-        { answerText: "A type of exception", isCorrect: false },
-        { answerText: "None of the above", isCorrect: false },
-      ],
-    },
-    {
-      questionText: "What is a constructor?",
-      answerOptions: [
-        {
-          answerText: "A special method used to initialize objects",
-          isCorrect: true,
-        },
-        { answerText: "A function to destroy objects", isCorrect: false },
-        { answerText: "A type of variable", isCorrect: false },
-        { answerText: "None of the above", isCorrect: false },
-      ],
-    },
-    {
-      questionText: "What is polymorphism?",
-      answerOptions: [
-        {
-          answerText: "The ability of an object to take on many forms",
-          isCorrect: true,
-        },
-        { answerText: "The process of creating an object", isCorrect: false },
-        { answerText: "A type of inheritance", isCorrect: false },
-        { answerText: "None of the above", isCorrect: false },
-      ],
-    },
-  ],
-};
-
-const QuizPage = () => {
-  const { subject } = useParams();
-  const [previousScore, setPreviousScore] = useState(null);
+function QuizPage() {
+  const { subject } = useParams(); // Iam Retrieving the selected subject from URL
   const navigate = useNavigate();
-
-  const subjectQuestions = questions[subject];
+  const [questions, setQuestions] = useState([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [selectedOptions, setSelectedOptions] = useState({});
+  const [correctCount, setCorrectCount] = useState(0);
 
   useEffect(() => {
-    const savedScore = localStorage.getItem(`${subject}_score`);
-    if (savedScore) {
-      setPreviousScore(savedScore);
+    const completedQuizzes =
+      JSON.parse(localStorage.getItem("completedQuizzes")) || {};
+    if (completedQuizzes[subject]) {
+      navigate("/scoreboard"); // Redirect to scoreboard if quiz is completed
+      return;
     }
-  }, [subject]);
 
-  if (!subjectQuestions) {
-    return <div>Invalid subject selected.</div>;
-  }
+    axios
+      .get(`http://localhost:8081/questions/${subject}`)
+      .then((response) => {
+        setQuestions(response.data[subject] || []);
+      })
+      .catch((error) => {
+        console.error("Error fetching questions:", error);
+      });
+  }, [subject, navigate]);
 
-  const handleQuizSubmit = (score) => {
-    alert(`Quiz submitted! Your score is ${score}.`);
-    navigate("/scoreboard", { state: { score } });
+  const handleOptionSelect = (option, isCorrect) => {
+    if (selectedOptions[currentQuestionIndex] === undefined) {
+      // Only update if no option has been selected yet
+      setSelectedOptions((prev) => ({
+        ...prev,
+        [currentQuestionIndex]: option,
+      }));
+      if (isCorrect) {
+        setCorrectCount((prev) => prev + 1);
+      }
+      setTimeout(() => {
+        if (currentQuestionIndex < questions.length - 1) {
+          setCurrentQuestionIndex((prev) => prev + 1);
+        }
+      }, 100);
+    }
   };
 
-  if (previousScore !== null) {
-    return (
-      <div>
-        <h2>You have already attempted this quiz.</h2>
-        <p>Your previous score: {previousScore}</p>
-        <button
-          onClick={() =>
-            navigate("/scoreboard", { state: { score: previousScore } })
+  const handleSubmit = () => {
+    const results = JSON.parse(localStorage.getItem("quizResults")) || {};
+    results[subject] = {
+      correctCount,
+      totalQuestions: questions.length,
+      subject: subject,
+    };
+    localStorage.setItem("quizResults", JSON.stringify(results));
+
+    const completedQuizzes =
+      JSON.parse(localStorage.getItem("completedQuizzes")) || {};
+    completedQuizzes[subject] = true;
+    localStorage.setItem("completedQuizzes", JSON.stringify(completedQuizzes));
+
+    const submissionData = {
+      subject,
+      totalQuestions: questions.length,
+      correctCount,
+      submittedUser: "user123", // I took sample user here
+    };
+
+    axios
+      .post("http://localhost:8081/scores", submissionData)
+      .then((response) => {
+        Swal.fire({
+          title: "Quiz Submitted!",
+          text: `You got ${correctCount} out of ${questions.length} correct.`,
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/scoreboard"); // Redirect to scoreboard page
           }
-        >
-          Go to Scoreboard
-        </button>
-      </div>
-    );
+        });
+      })
+      .catch((error) => {
+        console.error("Error submitting score:", error);
+        Swal.fire({
+          title: "Error!",
+          text: "There was an error submitting your score. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      });
+  };
+
+  function handleCurrentQuestion(currentIndex) {
+    return questions[currentIndex];
   }
 
+  if (questions.length === 0) return <p>Loading questions...</p>;
+  const currentQuestion = handleCurrentQuestion(currentQuestionIndex);
+  const isLastQuestion = currentQuestionIndex === questions.length - 1;
+
   return (
-    <div>
-      <Quiz
-        questions={subjectQuestions}
-        subject={subject}
-        onSubmit={handleQuizSubmit}
-      />
+    <div className="quiz-page">
+      <h2>{subject} Quiz</h2>
+      <div className="question-container">
+        <p className="question-text">{currentQuestion.questionText}</p>
+        <div className="options-container">
+          {currentQuestion.answerOptions.map((option, index) => (
+            <button
+              key={index}
+              onClick={() =>
+                handleOptionSelect(option.answerText, option.correct)
+              }
+              className={`option-button ${
+                selectedOptions[currentQuestionIndex] === option.answerText
+                  ? "selected"
+                  : ""
+              }`}
+              disabled={!!selectedOptions[currentQuestionIndex]}
+            >
+              {option.answerText}
+            </button>
+          ))}
+        </div>
+        <div className="navigation-buttons">
+          {!isLastQuestion && (
+            <button
+              onClick={() => {
+                if (currentQuestionIndex < questions.length - 1) {
+                  setCurrentQuestionIndex((prev) => prev + 1);
+                }
+              }}
+            >
+              Next
+            </button>
+          )}
+          {isLastQuestion && <button onClick={handleSubmit}>Submit</button>}
+        </div>
+      </div>
     </div>
   );
-};
+}
 
 export default QuizPage;
