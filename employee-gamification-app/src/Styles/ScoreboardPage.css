@@ -1,0 +1,50 @@
+.scoreboard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+  }
+  
+  .scoreboard-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 800px;
+    text-align: center;
+  }
+  
+  .scoreboard-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+    flex-direction: row;
+    
+  }
+  
+  .scoreboard-icon {
+    margin-right: 10px;
+    font-size: 1.5em;
+    color: #f39c12;
+    margin-left: 20px;
+  }
+  .scoreboard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+  }
+  
+  
+  hr {
+    margin: 2px 0;
+  }
+  .scoreboard-icon-total{
+    font-size: 1.5em;
+    color: #20de62;
+    
+    
+  }

@@ -1,0 +1,40 @@
+/* QuizPage.css */
+.quiz-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .question-container {
+    margin: 20px 0;
+    margin-left: 150px;
+  }
+  
+  .question-text {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .options-container {
+    margin-bottom: 20px;
+    
+  }
+  
+  .option-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    background-color: #76cfe5;
+    cursor: pointer;
+  }
+  
+  .option-button.selected {
+    background-color: #d0f0c0;
+  }
+  
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
