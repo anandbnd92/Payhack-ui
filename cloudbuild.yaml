@@ -10,7 +10,7 @@ steps:
       - 'deployment/payhack-ui'
       - 'payhack-ui=gcr.io/lloyds-hack-grp-21/payhack-ui:$COMMIT_SHA'
     env:
-      - 'CLOUDSDK_COMPUTE_ZONE=asia-south1-a'
+      - 'CLOUDSDK_COMPUTE_ZONE=asia-south1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=payhack-ui'
 images:
   - 'gcr.io/lloyds-hack-grp-21/payhack-ui:$COMMIT_SHA'
